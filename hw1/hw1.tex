@@ -1,0 +1,205 @@
+\input miniltx
+\input graphicx.sty
+\input tikz.tex
+\usetikzlibrary{automata,positioning}
+\centerline{Steve Hsu\hfill homework 1}
+\item{6.} a.
+
+\tikzpicture[auto]
+\node[state,initial,initial text=] (q_0) {$q_0$};
+\node[state] (q_1) [right=of q_0] {$q_1$};
+\node[state,accepting] (q_2) [right=of q_1] {$q_2$};
+\path[->]
+(q_0) edge node {$1$} (q_1)
+(q_1) edge [bend left=10] node {$0$} (q_2)
+      edge [loop above] node {$1$} ()
+(q_2) edge [loop above] node {$0$} ()
+      edge [bend left=10] node {$1$} (q_1);
+\endtikzpicture
+
+\item{} b.
+
+\tikzpicture[auto]
+\node[state,initial,initial text=] (q_0) {$q_0$};
+\node[state] (q_1) [right=of q_0] {$q_1$};
+\node[state] (q_2) [right=of q_1] {$q_2$};
+\node[state,accepting] (q_3) [right=of q_2] {$q_3$};
+\path[->]
+(q_0) edge [loop above] node {$0$} ()
+      edge node {$1$} (q_1)
+(q_1) edge [loop above] node {$0$} ()
+      edge node {$1$} (q_2)
+(q_2) edge [loop above] node {$0$} ()
+      edge node {$1$} (q_3)
+(q_3) edge [loop right] node {$0,1$} ();
+\endtikzpicture
+
+\item{} g.
+
+\tikzpicture[auto]
+\node[state,initial,accepting,initial text=] (q_0) {$q_0$};
+\node[state,accepting] (q_1) [right=of q_0] {$q_1$};
+\node[state,accepting] (q_2) [right=of q_1] {$q_2$};
+\node[state,accepting] (q_3) [right=of q_2] {$q_3$};
+\node[state,accepting] (q_4) [right=of q_3] {$q_4$};
+\node[state,accepting] (q_5) [right=of q_4] {$q_5$};
+\path[->]
+(q_0) edge node {$0,1$} (q_1)
+(q_1) edge node {$0,1$} (q_2)
+(q_2) edge node {$0,1$} (q_3)
+(q_3) edge node {$0,1$} (q_4)
+(q_4) edge node {$0,1$} (q_5);
+\endtikzpicture
+
+\item{} i.
+
+\tikzpicture[auto]
+\node[state,initial,accepting,initial text=] (q_0) {$q_0$};
+\node[state,accepting] (q_1) [right=of q_0] {$q_1$};
+\path[->]
+(q_0) edge [bend left=10] node {$1$} (q_1)
+(q_1) edge [bend left=10] node {$0,1$} (q_0);
+\endtikzpicture
+
+\item{7.} e.
+
+\tikzpicture[auto]
+\node[state,initial,initial text=] (q_0) {$q_0$};
+\node[state] (q_1) [right=of q_0] {$q_1$};
+\node[state,accepting] (q_2) [right=of q_1] {$q_1$};
+\path[->]
+(q_0) edge [loop above] node {$0$} ()
+      edge node {$\epsilon$} (q_1)
+(q_1) edge [loop above] node {$1$} ()
+      edge node {$0$} (q_2)
+(q_2) edge [loop above] node {$0$} ();
+\endtikzpicture
+
+\item{8.} a.
+
+\tikzpicture[auto]
+\node[state,initial,initial text=] (q_0) {$q_0$};
+\node[state] (q_1) [right=of q_0] {$q_1$};
+\node[state,accepting] (q_2) [right=of q_1] {$q_2$};
+\node[state] (q_3) [below=of q_0] {$q_3$};
+\node[state] (q_4) [right=of q_3] {$q_4$};
+\node[state] (q_5) [right=of q_4] {$q_5$};
+\node[state,accepting] (q_6) [right=of q_5] {$q_6$};
+\path[->]
+(q_0) edge node {$1$} (q_1)
+      edge node {$\epsilon$} (q_3)
+(q_1) edge [loop above] node {$0,1$} ()
+      edge node {$0$} (q_2)
+(q_3) edge [loop below] node {$0$} ()
+      edge node {$1$} (q_4)
+(q_4) edge [loop below] node {$0$} ()
+      edge node {$1$} (q_5)
+(q_5) edge [loop below] node {$0$} ()
+      edge node {$1$} (q_6)
+(q_6) edge [loop right] node {$0,1$} ();
+\endtikzpicture
+
+\item{9.} a.
+
+\tikzpicture[auto]
+\node[state,initial,initial text=] (q_0) {$q_0$};
+\node[state] (q_1) [right=of q_0] {$q_1$};
+\node[state] (q_2) [right=of q_1] {$q_2$};
+\node[state] (q_3) [right=of q_2] {$q_3$};
+\node[state] (q_4) [right=of q_3] {$q_4$};
+\node[state,accepting] (q_5) [right=of q_4] {$q_5$};
+\node[state,accepting] (q_6) [right=of q_5] {$q_6$};
+\path[->]
+(q_0) edge node {$0,1,\epsilon$} (q_1)
+(q_1) edge node {$0,1,\epsilon$} (q_2)
+(q_2) edge node {$0,1,\epsilon$} (q_3)
+(q_3) edge node {$0,1,\epsilon$} (q_4)
+(q_4) edge node {$0,1,\epsilon$} (q_5)
+(q_5) edge [bend left=10] node {$1$} (q_6)
+(q_6) edge [bend left=10] node {$0,1$} (q_5);
+\endtikzpicture
+
+\item{10.} a.
+
+\tikzpicture[auto]
+\node[state,initial,initial text=] (q_0) {$q_0$};
+\node[state] (q_1) [right=of q_0] {$q_1$};
+\node[state] (q_2) [right=of q_1] {$q_2$};
+\node[state] (q_3) [right=of q_2] {$q_3$};
+\node[state,accepting] (q_4) [right=of q_3] {$q_4$};
+\node[state,accepting] (q_5) [below=of q_0] {$q_5$};
+\path[->]
+(q_0) edge node {$\epsilon$} (q_1)
+      edge node {$\epsilon$} (q_5)
+(q_1) edge [loop above] node {$0$} ()
+      edge node {$1$} (q_2)
+(q_2) edge [loop above] node {$0$} ()
+      edge node {$1$} (q_3)
+(q_3) edge [loop above] node {$0$} ()
+      edge node {$1$} (q_4)
+(q_4) edge [loop right] node {$0,1$} ();
+\endtikzpicture
+
+\goodbreak
+\item{31.}
+
+Let $Q_A$, $\delta_A$, $q_{0A}$, and $F_A$ be the
+set of states, transition, start state, and set of accepting states
+of a deterministic finite automaton $D$ that recognizes $A$.
+
+We construct a nondeterministic finite automaton $N$
+that recognizes $A^{\cal R}$.
+Let $Q = Q_A \cup \{q_0\}$, where $q_0 \notin Q_A$ be
+$Q_A$ with an additional element,
+$\delta(q_0, \epsilon) = F$ and
+$\delta(q, a) = \{x \in Q : \delta_A(x, a) = q\}$
+for $q \in Q$ and $a \in \Sigma$ be
+the function that maps $(q, a)$ to the preimage of $q$ under
+$f(x) = \delta_A(x, a)$,
+$q_0$ be the state mentioned in the definition of $Q$,
+and $F = \{q_{0A}\}$ be the singleton set containing the start state of $D$.
+
+We must show that $N$ accepts a word $w^{\cal R}$
+if and only if the $D$ accepts $w$.
+
+For the forward direction
+(if $D$ accepts $w$, then $N$ accepts $w^{\cal R}$),
+we simply notice that $N$ can pass through the same states as $D$
+in reverse order.
+
+For the backward direction
+(if $N$ accepts $w^{\cal R}$, then $D$ accepts $w$),
+assume that $N$ accepts $w^{\cal R}$.
+We want to show that $D$ accepts $w$.
+Take some path through $N$ that leads to $q_{0A}$.
+$D$ must take this path in reverse order and accept $w$.
+
+\item{34.}
+
+\tikzpicture[auto]
+\node[state,initial,initial text=] (q_0) {$q_0$};
+\node[state,accepting] (q_1) [right=of q_0] {$q_1$};
+\path[->]
+(q_0) edge [loop above] node {${0 \brack 0}, {1 \brack 1}$} ()
+      edge node {$1 \brack 0$} (q_1)
+(q_1) edge [loop right] node {${0 \brack 0}, {0 \brack 1}, {1 \brack 0}, {1 \brack 1}$} ();
+\endtikzpicture
+
+\item{41.}
+
+Let $Q_A$, $\delta_A$, $q_{0A}$, and $F_A$ be the set of states,
+transition function, start state, and set of accepting states
+of a deterministic finite automaton $D_A$ that recognizes $A$
+and let $Q_B$, $\delta_B$, $q_{0B}$, and $F_B$ be the set of states,
+transition function, start state, and set of accepting states
+of a deterministic finite automaton $D_B$ that recognizes $B$.
+
+We construct a deterministic finite automaton where
+$Q = Q_A \times Q_B \times \{0,1\}$,
+$\delta((q_A,q_B,0), a) = (\delta_A(q_A),q_B,1)$ and
+$\delta((q_A,q_B,1), a) = (q_A,\delta_B(q_B),0)$,
+$q_0 = (q_{0A},q_{0B},0)$, and
+$F = F_A \times F_B \times \{0\}$.
+
+This automaton recognizes the perfect shuffle of $A$ and $B$.
+\bye
