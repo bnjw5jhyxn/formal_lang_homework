@@ -1,0 +1,215 @@
+\def\]{\leavevmode\hbox{\tt\char`\ }} % visible space
+\def\acc{{\rm accept}}
+\def\rej{{\rm reject}}
+\def\abs#1{\vert#1\vert}
+\def\angles#1{\langle#1\rangle}
+\def\card{{\rm Card}}
+\def\inpr#1#2{\langle#1,#2\rangle}
+\centerline{Steve Hsu\hfill homework 4}
+\item{3.6.}
+
+If there is some $s_k$ such that $M$ loops on $s_k$,
+then $M$ will never run on $s_{k+1},\ldots$
+and will therefore not output any more strings.
+\bigskip
+\item{3.8.} b.
+
+Let $Q = \{q_0,q_{s1},q_{r1},q_{rf},q_{s20},q_{s0},q_{r0},q_\acc,q_\rej\}$,
+$\Sigma = \{0,1\}$,\hfil\break
+$\Gamma = \{0=0_0, 1=1_0, 0_1, 1_1, 0_2, 1_2, 0_3, 1_3, \]\}$,
+and $\delta$ be such that
+$$\eqalign{
+\delta(q_0,0_i) &= (0_2,q_{s1},L)\cr
+\delta(q_0,1_i) &= (1_2,q_{s1},L)\cr
+\delta(q_0,\]) &= (\],q_\acc,L)\cr
+\delta(q_{s1},0_i) &= (0_i,q_{s1},R)\cr
+\delta(q_{s1},1_{i \equiv 1 \bmod 2}) &= (1_i,q_{s1},R)\cr
+\delta(q_{s1},1_{i \equiv 0 \bmod 2}) &= (1_{i+1},q_{r1},L)\cr
+\delta(q_{s1},\]) &= (\],q_{rf},L)\cr
+\delta(q_{r1},0_{i \le 1}) &= (0_i,q_{r1},L)\cr
+\delta(q_{r1},1_{i \le 1}) &= (1_i,q_{r1},L)\cr
+\delta(q_{r1},0_{i \ge 2}) &= (0_i,q_{s20},L)\cr
+\delta(q_{r1},1_{i \ge 2}) &= (1_i,q_{s20},L)\cr
+\delta(q_{rf},0_1) &= (0_1,q_{rf},L)\cr
+\delta(q_{rf},1_{i \le 1}) &= (1_i,q_{rf},L)\cr
+\delta(q_{rf},0_{i \equiv 0 \bmod 2}) &= (0_i,q_\rej,L)\cr
+\delta(q_{rf},0_3) &= (0_3,q_\acc,L)\cr
+\delta(q_{rf},1_{i \ge 2}) &= (1_i,q_\acc,L)\cr
+\delta(q_{s20},0_{i \equiv 0 \bmod 2}) &= (0_{i+1},q_{s0},R)\cr
+\delta(q_{s20},0_{i \equiv 1 \bmod 2}) &= (0_i,q_{s20},R)\cr
+\delta(q_{s20},1_i) &= (1_i,q_{s20},R)\cr
+\delta(q_{s20},\]) &= (\],q_\rej,R)\cr
+\delta(q_{s0},0_{i \equiv 0 \bmod 2}) &= (0_{i+1},q_{r0},L)\cr
+\delta(q_{s0},0_{i \equiv 1 \bmod 2}) &= (0_i,q_{s0},R)\cr
+\delta(q_{s0},1_i) &= (1_i,q_{s0},R)\cr
+\delta(q_{s0},\]) &= (\],q_\rej,R)\cr
+\delta(q_{r0},0_{i \le 1}) &= (0_i,q_{r1},L)\cr
+\delta(q_{r0},1_{i \le 1}) &= (1_i,q_{r1},L)\cr
+\delta(q_{r0},0_{i \ge 2}) &= (0_i,q_{s1},L)\cr
+\delta(q_{r0},1_{i \ge 2}) &= (1_i,q_{s1},L)\cr
+}$$
+and $\delta(q,a)$ is arbitrary for other values of $(q,a)$.
+
+This Turing machine marks each $1$ and cancels it with two $0$'s,
+handling special cases as necessary.
+\bigskip
+\item{3.11.}
+
+Let $M$ be a Turing machine with a singly infinite tape.
+We will construct a Turing machine $M'$ with a doubly infinite tape
+that recognizes $L(M)$.
+
+Let $q_S$ and $q_L$ not be in the set of states $Q$ of $M$,
+let $q_0$ be the start state of $M$,
+and let $\]'$ not be in the tape alphabet $\Gamma$ of $M$.
+Let $Q' = Q \cup \{q_S, q_L\}$,
+where $q_S$ is the start state of $M'$
+and $q_\acc$ and $q_\rej$, the accept and reject states, respectively, of $M$,
+are the accept and reject states of $M'$.
+The transition function $\delta'$ of $M'$ is identical to
+the transition function $\delta$ of $M$ except that
+$\delta(q_S,a) = (a,q_L,L)$ for all $a \in \Sigma^\star$,
+$\delta(q_L,\]) = (\]',q_0,R)$, and
+$\delta(q,\]') = (\]',q,R)$ for all $q \in Q$.
+This Turing machine uses $\]'$ to mark the left boundary of the tape
+and moves back to the starting position whenever the head moves to the boundary.
+\bigskip
+\item{3.15.} b.
+
+Let $L_1$ and $L_2$ be languages decided
+by deciders $M_1$ and $M_2$, respectively.
+Given $w \in \Sigma^\star$, let $x_k$ and $y_k$ be strings
+such that $\abs{x_k} = k$ and $x \cdot y = w$.
+For each integer $n$ such that $0 \le n \le \abs w$,
+run $M_1$ on $x_n$ and $M_2$ on $y_n$.
+If both accept, then accept $w$.
+If at least one rejects for all $n$, then reject $w$.
+\medskip
+\item{} e.
+
+Let $L_1$ and $L_2$ be languages decided
+by deciders $M_1$ and $M_2$, respectively.
+Given $w \in \Sigma^\star$, run $M_1$ and $M_2$ on $w$.
+If both accept, then accept $w$.
+Otherwise, reject $w$.
+\bigskip
+\item{3.16.} b.
+
+Let $L_1$ and $L_2$ be languages recognized
+by Turing machines $M_1$ and $M_2$, respectively.
+Given $w \in \Sigma^\star$, let $x_k$ and $y_k$ be strings
+such that $\abs{x_k} = k$ and $x \cdot y = w$.
+For each positive integer $i$,
+for each integer $n$ such that $0 \le n \le \abs w$,
+run $M_1$ on $x_n$ and $M_2$ on $y_n$ for $i$ steps each.
+If both accept, then accept $w$.
+\medskip
+\item{} d.
+
+Let $L_1$ and $L_2$ be languages recognized
+by Turing machines $M_1$ and $M_2$, respectively.
+Given $w \in \Sigma^\star$, run $M_1$ and $M_2$ on $w$ in parallel.
+If both accept, then accept $w$.
+Otherwise, reject $w$.
+\bigskip
+\item{3.18.}
+
+For the forward direction, assume that a language $L$ is decidable.
+Let $M$ be a decider for $L$.
+For each string $w \in \Sigma^\star$ in standard order, run $M$ on $w$.
+If $M$ accepts $w$, output it.
+
+For the backward direction, assume that $L$
+is enumerable in a standard order.
+A Turing machine $M$ can, on input $w$,
+examine the inputs of the enumerator.
+If it sees a $w$, it accepts $w$.
+If it sees a string after $w$ in the order, it rejects $w$.
+\bigskip
+\item{4.5.}
+
+Let $s_1,s_2,\ldots$ be such that $\Sigma^\star = \{s_1,s_2,\ldots\}$.
+For each positive integer $i$,
+for each integer $j$ such that $1 \le j \le i$,
+run $M$ on $s_j$ for $i$ steps.
+If it accepts, then accept $\angles M$.
+\bigskip
+\item{4.7.}
+
+Suppose for contradiction that $\cal B$ is countable.
+Then we can write ${\cal B} = \{(b_{1n}),(b_{2n}),\ldots\}$.
+Take the sequence $(a_n)$ defined by
+$$a_k = \cases{
+0,&if $b_{kk} = 1$\cr
+1,&if $b_{kk} = 0$\cr
+}$$
+Since $(a_n)$ is an infinite sequence of $0$'s and $1$'s,
+it should be in $\cal B$.
+This is a contradiction since $(a_n) \ne (b_{kn})$
+for all positive integers $k$.
+Therefore, $\cal B$ must be uncountable.
+\bigskip
+\item{4.8.}
+
+\proclaim Lemma. $\card\{(i,j,k) : i + j + k = n\} = {n+2 \choose 2}$
+for all natural numbers $n$.
+
+Imagine assigning $n$ indistinguishable items
+to three indistinguishable buckets.
+One way to make this assignment is to have $n + 2$ objects:
+the $n$ items and two dividers.
+We pick two of the spots to be dividers, assigning items to the rest.
+The items to the left of the first divider are in the first bucket,
+those between the dividers are in the second bucket, and
+those to the right of the second divider are in the third bucket.
+Clearly, there are $n+2 \choose 2$ ways to make the assignment.
+Let $i$ be the number of items in the first bucket,
+$j$ be the number of items in the second bucket, and
+$k$ be the number of items in the third bucket.
+\medskip
+Since, by the lemma, there are finitely many ordered triples
+of natural numbers with sum exactly $n$,
+there are also finitely many ordered triples of
+natural numbers with sum at most $n$
+(${0+2 \choose 2} + {1+2 \choose 2} + \cdots + {n+2 \choose 2}$).
+We can therefore list all ordered triples with sum $0$,
+then all ordered triples with sum $1$, and so on.
+Since every ordered triple of natural numbers has a finite sum,
+we will list all ordered triples in this manner.
+\bigskip
+\item{4.18.}
+
+For the forward direction, assume that $C$ is Turing-recognizable.
+Let $M$ be a Turing machine that recognizes $C$.
+Let $D$ be the set of strings of the form $\inpr x y$ such that
+$M$ accepts $x$ within $n$ steps, where $y$ is a binary representation of $n$.
+Since we can accept or reject after running $M$ for at most $n$ steps,
+$D$ is decidable.
+Clearly, if $x \in C$, then $M$ accepts $x$ in some number of finite steps.
+Take $y$ to be the binary representation of this number of steps.
+Therefore, there is string $y$ such that $\inpr x y \in D$.
+
+For the backward direction, assume that $D$ is decidable
+and let $C = \{x : (\exists y) \inpr x y \in D\}$.
+Let $M$ be a decider for $D$.
+Given an input $x$,
+for all $y \in \Sigma^\star$, run $D$ on $\inpr x y$.
+If it accepts one, accept $x$.
+We have a Turing recognizer for $C$.
+\bigskip
+\item{4.20.}
+
+Let $M_1$ be a recognizer for $\overline A$ and $M_2$ be a recognizer for $\overline B$.
+Consider the Turing machine $D$ that, on input $w$,
+runs $M_1$ and $M_2$ on $w$ in parallel.
+At each step, if $M_2$ accepts, it accepts $w$.
+If $M_1$ accepts and $M_2$ does not accept, it rejects $w$.
+Since $A$ and $B$ are disjoint, $\overline A \cup \overline B = \Sigma^\star$.
+Therefore, at least one of $M_1$ and $M_2$ accepts any string $w$
+and $D$ is a decider.
+If $w \in A$, then $w \notin \overline A$ and $w \in \overline B$.
+Therefore, $M_2$ will accept $w$ and $M_1$ will not.
+Hence $A \subseteq L(D)$.
+Similarly, $B \subseteq \overline{L(D)}$.
+Consequently, $L(D)$ separates $A$ and $B$.
+\bye 
