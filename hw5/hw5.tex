@@ -1,0 +1,201 @@
+\def\abs#1{\vert#1\vert}
+\def\desc#1{\langle#1\rangle}
+\def\floor#1{\lfloor#1\rfloor}
+\def\reducesto{\le _{\hbox{m,poly}}}
+\centerline{Steve Hsu\hfill homework 5}
+\item{6.14.}
+
+Let $A$ and $B$ be languages.
+Take $J = \{(x, 0) : x \in A\} \cup \{(y, 1) : y \in B\}$.
+To decide $A$ on input $x$,
+call the oracle for $J$ on $(x, 0)$.
+Similarly, to decide $B$ on output $y$,
+call the oracle for $J$ on $(y, 1)$.
+\bigskip
+\item{6.19.}
+
+We can describe an oracle Turing machine
+with an oracle for $A_{TM}$ with a finite string.
+There are therefore countably many such oracle Turing machines.
+Since there are uncountably many languages,
+there are not enough oracle Turing machines to recognize all languages.
+\bigskip
+\item{7.5.} no
+
+Let $\ell _x$ and $\ell _y$ be an arbitrary assignment of $x$ and $y$.
+Notice that there is a clause $(\overline{\ell _x} \vee \overline{\ell _y})$,
+so the formula is not satisfied.
+\bigskip
+\item{7.6.}
+
+Let $L_1$ and $L_2$ be languages in $P$.
+Then there are deciders $M_1$ and $M_2$
+that decide $L_1$ and $L_2$ in $O(n^c)$ and $O(n^d)$ time, respectively.
+
+
+In order to decide $L_1 \cup L_2$ on input $x$, first run $M_1$ on $x$.
+If it accepts, then accept $x$.
+Otherwise, run $M_2$ on $x$ and output its answer.
+This procedure takes $O(\abs x ^c + \abs x ^d)$ time,
+so $L_1 \cup L_2 \in P$.
+
+In order to decide $L_1 \cdot L_2$ on input $x = x_1 x_2 \cdots x_n$,
+for each integer $k$ such that $0 \le k \le n$,
+take $a_k = x_1 x_2 \cdots x_k$ and $b_k = x_{k+1} x_{k+2} \cdots x_n$.
+Run $M_1$ on $a_k$ and $M_2$ on $b_k$.
+If both accept, then accept $x$.
+If none of the iterations accept, then reject $x$.
+This procedure takes $O(n(n^c + n^d))$,
+so $L_1 \cdot L_2 \in P$.
+
+In order to decide $\overline{L_1}$,
+run $M_1$ on $x$ and output the negation of its answer.
+This procedure takes $O(\abs x ^c)$ time,
+so $\overline{L_1} \in P$.
+\bigskip
+\item{7.7.}
+
+Let $L_1$ and $L_2$ be languages in $NP$.
+Then there are deciders $M_1$ and $M_2$ such that
+$x \in L_1$ if and only if there exists $y \in \Sigma ^\star$
+such that $M_1(x, y)$ accepts
+and $x \in L_2$ if and only if there exists $y \in \Sigma ^\star$
+such that $M_2(x, y)$ accepts.
+Additionally, $M_1$ runs in $O(n^c)$ time and $M_2$ runs in $O(n^d)$ time.
+
+In order to verify membership of $x$ in $L_1 \cup L_2$ with witness $y$,
+run $M_1$ and $M_2$ on $(x, y)$.
+If at least one accepts, then accept $(x, y)$.
+Otherwise, reject $(x, y)$.
+This procedure takes $O(\abs{(x,y)}^c + \abs{(x,y)}^d)$ time.
+
+In order to verify membership of $x = x_1 \cdots x_n$ in $L_1 \cdot L_2$
+with witness $y$, if $y$ is not of the form $(y_1, y_2)$
+where $y_1, y_2 \in \Sigma ^\star$, then reject $(x, y)$.
+For each integer $k$ such that $0 \le k \le n$,
+take $a_k = x_1 \cdots x_k$ and $b_k = x_{k+1} \cdots x_n$.
+Run $M_1$ on $(a_k, y_1)$ and $M_2$ on $(b_k, y_2)$.
+If both accept, then accept $(x, y)$.
+If none of the iterations accept, then reject $x$.
+This procedure takes $O(\abs{(x,y)} (\abs{(x,y)}^c + \abs{(x,y)}^d)$ time.
+\bigskip
+\item{7.9.}
+
+Let the vertex set of $G$ be $v_1, v_2, \ldots, v_n$.
+There are $O(n^3)$ ordered triples of integers $(i,j,k)$
+such that $1 \le i < j < k \le n$.
+For each such triple, check if $(i,j)$, $(i,k)$, and $(j,k)$
+are in the edge set of $G$.
+If not all of them are, then reject $\desc G$.
+If none of the iterations reject, then accept $\desc G$.
+Since it takes linear time to search for a pair of edges on a tape,
+this procedure takes $O(\abs{\desc G} ^4)$ time.
+\bigskip
+\item{7.13.}
+
+Let $r(a, n)$ be the smallest nonnegative integer $k$
+such that $a \equiv k \pmod n$.
+Notice that we can compute $r$ in quadratic time.
+Let $f(t,a,b,p) = t a^b \pmod p$.
+We can compute this function recursively in polynomial time.
+If $b = 0$, then return $t$.
+If $b > 0$, then let $b' = \floor{b/2}$ and
+$x = n$ if $b$ is odd and $1$ if $b$ is even.
+Return $f(r(tx, p), r(a^2, p), b', p)$.
+To decide $MODEXP$ on input $\desc{a,b,c,p}$,
+if $f(1,a,b,p) \equiv c \pmod p$, then accept.
+Otherwise, reject.
+Notice that we make $O(\log b)$ recursive calls to $f$,
+and we need quadratic time in each step for the multiplications
+and reductions $\bmod p$,
+so this procedure takes $O(\abs{\desc{a,b,c,p}}^3)$ time.
+\bigskip
+\item{7.14.}
+
+Notice that it takes $O(\log k)$ space
+to describe a permutation on $\{1,\ldots,k\}$.
+Let $f(h,q,t) = h \circ q^t$.
+We can compute this function recursively in polynomial time.
+If $t = 0$, then return $h$.
+If $t > 0$, then let $t' = \floor{t/2}$ and
+$x = q$ if $t$ is odd and $x = I$ if $t$ is even.
+Return $f(hx, q \circ q, t')$.
+To decide $PERM$-$POWER$ on input $\desc{p,q,t}$,
+accept if $f(I,q,t) = p$.
+Otherwise, reject.
+Notice that we make $O(\log t)$ recursive calls to $f$
+and that we can compute compositions of permutations in polynomial time.
+Therefore, this procedure takes polynomial time.
+\bigskip
+\item{7.17.}
+
+The proof fails because representing in unary results in an exponential
+increase in the size of the representations of the numbers in the input,
+possibly causing reductions to take exponential time to compute the mapping.
+
+\bigskip
+\item{7.18.}
+
+Let $A \in P$ with $A \ne \emptyset$ and $A \ne \Sigma ^\star$.
+Since $P \subset NP$, we have that $A \in NP$.
+Since $A \ne \emptyset$, there exists $a \in A$.
+Since $A \ne \Sigma ^\star$, there exists $b \in \overline A$.
+Let $L \in NP$.
+Since $P = NP$, $L \in P$.
+To reduce $L$ to $A$ on input $x$, decide if $x \in L$.
+This step takes polynomial time since $L \in P$.
+If $x \in L$, then output $a$.
+Otherwise, output $b$.
+Therefore, $L \reducesto A$, so $A$ is $NP$-hard.
+Since $A \in NP$ and $A$ is $NP$-hard, $A$ is $NP$-complete, as desired.
+\bigskip
+\item{7.20.}
+
+By contraposition, the claim is equivalent to the implication:
+if $P = NP$, then $PATH$ is $NP$-complete.
+Assume that $P = NP$.
+Since $PATH \in P$, $PATH \ne emptyset$, and $PATH \ne \Sigma ^\star$,
+by exercise (7.18), $PATH$ is $NP$-complete, as desired.
+\bigskip
+\item{7.22.}
+
+Since we can verify membership in $DOUBLE$-$SAT$ with two distinct
+satisfying assignments, $DOUBLE$-$SAT \in NP$.
+We will show bi reduction from $SAT$ that $DOUBLE$-$SAT$ is $NP$-hard.
+Given a boolean formula $\phi$,
+let $\phi'$ be a boolean formula identical to $\phi$
+except that every variable $x_i$ that appears in $\phi$
+is renamed to a distinct variable $y_i$ that does not appear in $\phi$.
+Let $f(\desc\phi) = \desc{\phi \wedge \phi' \wedge
+\bigvee _{x_i \in \phi} (x_i \oplus y_i)}$,
+where $\oplus$ is the exclusive or operator.
+The $\phi \wedge \phi'$ part ensures that both assignments are satisfying
+and the rest ensures that the assignments are distinct.
+\bigskip
+\item{7.34.}
+
+We will show that $D$ is $NP$-hard by reduction from $SUBSET$-$SUM$.
+Let $(a_1,a_2,\ldots,a_n,b)$ be an input to $SUMSET$-$SUM$.
+Output the polynomial
+$((\sum _{i=1} ^n a_i x_i) - b)^2 + \sum _{i=1} ^n (x_i (x_i - 1))^2$,
+where $x_1, \ldots, x_n$ are real numbers.
+Notice that all of the component polynomials are squared and are therefore nonnegative.
+Therefore, any root must make all of these components zero.
+The $x_i(x_i - 1)$ parts ensure that each $x_i$ is either $1$ or $0$
+and the $\sum a_i x_i - b$ part ensures that any root specifies a subset
+of $\{a_i\}$ that sums to $b$.
+\bigskip
+\item{7.39.}
+
+Let $L$ be the set of pairs $(n,k)$ such that
+$n$ has a nontrivial factor at most $k$.
+Notice that if $n$ is composite,
+then we can binary search for the smallest prime factor of $n$
+in $\log n$ steps.
+Additionally, since each prime factor of $n$ is at least $2$,
+$n$ has at most $\log n$ prime factors, counting repetitions.
+We can therefore factor integers with $\log ^2 n$ calls
+to a decider for $L$.
+If $P = NP$, then such a decider runs in polynomial time
+and we can factor integers quickly.
+\bye
